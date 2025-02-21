@@ -16,7 +16,7 @@ namespace Мастер_пола
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LogForm());
+            Application.Run(new MainWindow());
         }
     }
 }

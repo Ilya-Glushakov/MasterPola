@@ -17,15 +17,10 @@ namespace Мастер_пола
 
     public partial class MainWindow : Form
     {
-        private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola";
-
         public MainWindow()
         {
             InitializeComponent();
             sklad.Visible = false;
-            product.Visible = false;
-            employee.Visible = false;
-            dolgnost.Visible = false;
             btnClosedatagrid.Visible = false;
 
         }
@@ -115,7 +110,7 @@ namespace Мастер_пола
         private void наименованиеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnClosedatagrid.Visible = true;
-            product.Visible = true;
+            sklad.Visible = true;
             try
             {
                 using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
@@ -128,12 +123,12 @@ namespace Мастер_пола
                         {
                             DataTable dataTable = new DataTable();
                             adapter.Fill(dataTable);
-                            product.AutoGenerateColumns = false;
-                            product.Columns.Clear();
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
 
-                            product.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Name_product", HeaderText = "Название", DataPropertyName = "Наименование_продукции" });
-                            product.DataSource = dataTable;
-                            if (product.Rows.Count == 0)
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Name_product", HeaderText = "Название", DataPropertyName = "Наименование_продукции" });
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
                             {
                                 MessageBox.Show("Заказы не найдены для данного клиента.");
                             }
@@ -150,7 +145,7 @@ namespace Мастер_пола
         private void списокToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnClosedatagrid.Visible = true;
-            employee.Visible = true;
+            sklad.Visible = true;
             try
             {
                 using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
@@ -163,13 +158,13 @@ namespace Мастер_пола
                         {
                             DataTable dataTable = new DataTable();
                             adapter.Fill(dataTable);
-                            employee.AutoGenerateColumns = false;
-                            employee.Columns.Clear();
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
 
-                            employee.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Spisok", HeaderText = "Фаммилия", DataPropertyName = "Фамилия" });
-                            employee.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Spisok", HeaderText = "Имя", DataPropertyName = "Имя" });
-                            employee.DataSource = dataTable;
-                            if (employee.Rows.Count == 0)
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Spisok", HeaderText = "Фаммилия", DataPropertyName = "Фамилия" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Spisok", HeaderText = "Имя", DataPropertyName = "Имя" });
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
                             {
                                 MessageBox.Show("Заказы не найдены для данного клиента.");
                             }
@@ -186,7 +181,7 @@ namespace Мастер_пола
         private void должностьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnClosedatagrid.Visible = true;
-            dolgnost.Visible = true;
+            sklad.Visible = true;
             try
             {
                 using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
@@ -199,11 +194,11 @@ namespace Мастер_пола
                         {
                             DataTable dataTable = new DataTable();
                             adapter.Fill(dataTable);
-                            dolgnost.AutoGenerateColumns = false;
-                            dolgnost.Columns.Clear();
-                            dolgnost.Columns.Add(new DataGridViewTextBoxColumn() { Name = "dolgn", HeaderText = "Должность", DataPropertyName = "Наименование_должности" });
-                            dolgnost.DataSource = dataTable;
-                            if (dolgnost.Rows.Count == 0)
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "dolgn", HeaderText = "Должность", DataPropertyName = "Наименование_должности" });
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
                             {
                                 MessageBox.Show("Заказы не найдены для данного клиента.");
                             }
@@ -220,21 +215,240 @@ namespace Мастер_пола
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            dolgnost.Visible = false;
+           
             sklad.Visible = false;
-            product.Visible = false;
-            employee.Visible = false;
-            dolgnost.Visible = false;
             btnClosedatagrid.Visible = false;
         }
 
         private void зарегистрироватьToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-           AddUsers addUsers = new AddUsers();
-            addUsers.Show();
-            this.Close();
-           
+            AddUsers adusrs = new AddUsers();
+            adusrs.Show();
+            this.Hide();
+
+
+        }
+
+        private void поступлениеЗаказаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnClosedatagrid.Visible = true;
+            sklad.Visible = true;
+            try
+            {
+                using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
+                {
+                    connect.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand("select Название_продукции, Поступление_продукции from Склад", connect))
+                    {
+                        using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable);
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
+
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Название продукции", DataPropertyName = "Название_продукции" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Datapost", HeaderText = "Дата поступления", DataPropertyName = "Поступление_продукции" });
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
+                            {
+                                MessageBox.Show("Заказы не найдены для данного клиента.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка: " + ex.Message);
+            }
+        }
+
+        private void местоХраненияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnClosedatagrid.Visible = true;
+            sklad.Visible = true;
+            try
+            {
+                using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
+                {
+                    connect.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand("select Название_продукции, Место_хранения_продукции from Склад", connect))
+                    {
+                        using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable);
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
+
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Название продукции", DataPropertyName = "Название_продукции" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Datapost", HeaderText = "Место хранения продукции", DataPropertyName = "Место_хранения_продукции" });
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
+                            {
+                                MessageBox.Show("Заказы не найдены для данного клиента.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка: " + ex.Message);
+            }
+        }
+
+        private void аопраоиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoginUsers log = new LoginUsers();
+            log.Show();
+            this.Hide();
+        }
+
+        private void складToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void материалToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnClosedatagrid.Visible = true;
+            sklad.Visible = true;
+            try
+            {
+                using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
+                {
+                    connect.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand("select Название_материала, Место_хранения_материала, Поступление_материала from Склад", connect))
+                    {
+                        using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable);
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
+
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Наименование материала", DataPropertyName = "Название_материала" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Position", HeaderText = "Место хранения материала", DataPropertyName = "Место_хранения_материала" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Datepost", HeaderText = "Дата поступления материала", DataPropertyName = "Поступление_материала" });
+                            sklad.DataSource = dataTable;
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
+                            {
+                                MessageBox.Show("Заказы не найдены для данного клиента.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void типToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegOrder reg = new RegOrder();
+            reg.Show();
+            this.Hide();
+        }
+
+        private void поступлениеМатериалаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void складToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void списокToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            btnClosedatagrid.Visible = true;
+            sklad.Visible = true;
+            try
+            {
+                using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
+                {
+                    connect.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand("select Наименование_компании from Партнеры", connect))
+                    {
+                        using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable);
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Компании", DataPropertyName = "Наименование_компании" });
+                            sklad.DataSource = dataTable;
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
+                            {
+                                MessageBox.Show("Заказы не найдены для данного клиента.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void списокToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            btnClosedatagrid.Visible = true;
+            sklad.Visible = true;
+            try
+            {
+                using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
+                {
+                    connect.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand("select Тип_заявки, Наименование_продукции, Стоимость, Статус from Заявка", connect))
+                    {
+                        using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable);
+                            sklad.AutoGenerateColumns = false;
+                            sklad.Columns.Clear();
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Тип заявки", DataPropertyName = "Тип_заявки" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Наименование продукции", DataPropertyName = "Наименование_продукции" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Стоимость", DataPropertyName = "Стоимость" });
+                            sklad.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Nameproduct", HeaderText = "Статус", DataPropertyName = "Статус" });
+                            sklad.DataSource = dataTable;
+                            sklad.DataSource = dataTable;
+                            if (sklad.Rows.Count == 0)
+                            {
+                                MessageBox.Show("Заказы не найдены для данного клиента.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
-
 }
