@@ -42,7 +42,11 @@ namespace Мастер_пола
                 using (NpgsqlConnection connect = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=Glushak228;Database=Masterpola"))
                 {
                     connect.Open();
+<<<<<<< HEAD
                     using (NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM Партнеры WHERE AND Почта = @Login AND Пароль = @Pass", connect))
+=======
+                    using (NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM Партнеры WHERE Почта = @Login AND Пароль = @Pass", connect))
+>>>>>>> 1000121212
                     {
                         command.Parameters.AddWithValue("@Login", Login);
                         command.Parameters.AddWithValue("@Pass", Pass);
@@ -61,7 +65,11 @@ namespace Мастер_пола
                     }
                     if (!boolfound)
                     {
+<<<<<<< HEAD
                         using (NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM Сотрудники WHERE Роль = 'админ' AND Почта = @Login AND Пароль = @Pass", connect))
+=======
+                        using (NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM Сотрудники WHERE Почта = @Login AND Пароль = @Pass", connect))
+>>>>>>> 1000121212
                         {
                             command.Parameters.AddWithValue("@Login", Login);
                             command.Parameters.AddWithValue("@Pass", Pass);
